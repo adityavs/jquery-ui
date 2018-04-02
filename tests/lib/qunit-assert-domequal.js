@@ -59,6 +59,12 @@ domEqual.attributes = [
 	"title"
 ];
 
+function camelCase( string ) {
+	return string.replace( /-([\da-z])/gi, function( all, letter ) {
+		return letter.toUpperCase();
+	} );
+}
+
 function getElementStyles( elem ) {
 	var styles = {};
 	var style = elem.ownerDocument.defaultView ?
@@ -71,7 +77,7 @@ function getElementStyles( elem ) {
 		while ( len-- ) {
 			key = style[ len ];
 			if ( typeof style[ key ] === "string" ) {
-				styles[ $.camelCase( key ) ] = style[ key ];
+				styles[ camelCase( key ) ] = style[ key ];
 			}
 		}
 
@@ -99,11 +105,11 @@ function extract( selector, message ) {
 	var children;
 	$.each( domEqual.properties, function( index, attr ) {
 		var value = elem.prop( attr );
-		result[ attr ] = value != null ? value : "";
+		result[ attr ] = value != null ? value : "";
 	} );
 	$.each( domEqual.attributes, function( index, attr ) {
 		var value = elem.attr( attr );
-		result[ attr ] = value != null ? value : "";
+		result[ attr ] = value != null ? value : "";
 	} );
 	result.style = getElementStyles( elem[ 0 ] );
 	result.events = $._data( elem[ 0 ], "events" );
